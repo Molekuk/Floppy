@@ -17,6 +17,13 @@ namespace Floppy.Pages
            _userManager = userManager;
         }
 
+        public IActionResult OnGet()
+        {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToPage("Lessons");
+            else
+                return Page();
+        }
 
         public async Task<IActionResult> OnPostRegisterAsync(RegisterViewModel model)
         {
@@ -26,7 +33,7 @@ namespace Floppy.Pages
                 if (!result.Succeeded)
                     ModelState.AddModelError("", result.Error);
                 else
-                    return RedirectToPage("Main");
+                    return RedirectToPage("Lessons");
             }
             return Page();
         }
@@ -38,8 +45,7 @@ namespace Floppy.Pages
                 var result = await _userManager.SignInAsync(model);
                 if (!result.Succeeded)
                     ModelState.AddModelError("", result.Error);
-                else
-                    return RedirectToPage("Main");
+                    return RedirectToPage("Lessons");
             }
             return Page();
         }
