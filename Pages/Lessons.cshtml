@@ -247,7 +247,7 @@
 
             <svg class="svg_lesson" width="120" height="120" viewBox="0 0 105 101">
                 <a href="#" data-hystmodal="#myModal" onclick="getid(@(++i))">
-                    <circle r="32" cx="50" cy="50" fill="red" class="Circle_@i"> </circle>
+                    <circle r="32" cx="50" cy="50" class="Circle_@i"> </circle>
                     <text x="0" y="15">
                         <tspan dx="30" dy="45">27</tspan>
                     </text>
@@ -256,19 +256,19 @@
 
             @{ for (var j = 1; j <= 27; j++)
                             {
-                                if (j < @ViewBag.Currentlesson)
+                                if (j < (int)ViewData["Current"])
                                 {
                                     <style>
                                         .Circle_@j {
-                                            fill:#ffb08f;
+                                            fill:#928d93;
                                         }
                                     </style> 
                                  }
-                                else if (j == @ViewBag.Currentlesson)
+                                else if (j == (int)ViewData["Current"])
                                 {
                                     <style>
                                         .Circle_@j {
-                                            fill: #5653DA;
+                                            fill: #0f0af0;
                                         }
                                     </style> 
                                }
@@ -281,7 +281,8 @@
                                     </style> 
                                 }
                             }
-                }
+                }     
+           
 
         </div>
         <div class="info_column">
@@ -353,7 +354,7 @@
         var btn = document.getElementById('less_btn');
         var desc = document.getElementById('description');
         var number = document.getElementById('number');
-        var curr = @ViewBag.Currentlesson;
+        var curr = @((int)ViewData["Current"]);
         var description = ["Местоимения", "Present Simple", "Eдинственное и множественное число", "Глагол have", "Отрицательные и вопросительные предложения", "Глагол to be в Present Simple", "Глагол can", "Неопределенный артикль A/An, Нулевой артикль", "Числа и даты", "Выражение принадлежности", "Определенный артикль The", "Повелительное наклонение", "Конструкции There is/are", "Прошедшее время - Past Simple", "Глагол to be в Past Simple", "Неправильные глаголы", "Прилагательные и наречия ", "Степени сравнения прилагательных", "Предлоги места и направления", "Неопределенные местоимения some и any", "Будущее время - Future Simple", "Глагол to be в Future Simple", "Модальные глаголы", "Предлоги времени", "Настоящее длительное время - Present Continuous", "Much и many, few и little", "Союзы and, but, or; so, because"];
         
         function getid(id) {
@@ -378,3 +379,5 @@
             linkAttributeName: "data-hystmodal",
         });
     </script>
+
+    

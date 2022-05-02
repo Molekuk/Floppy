@@ -11,6 +11,11 @@ namespace Floppy.Pages.Lesson
         {
 
         }
+
+        public void OnGet()
+        {
+            ViewData["Current"] = 5;
+        }
         public async Task<IActionResult> OnGetExitAsync([FromServices] IUserManager userManager)
         {
            await userManager.SignOutAsync();
