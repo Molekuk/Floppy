@@ -45,6 +45,7 @@ namespace Floppy.Pages
                 var result = await _userManager.SignInAsync(model);
                 if (!result.Succeeded)
                     ModelState.AddModelError("", result.Error);
+                else 
                     return RedirectToPage("Lessons");
             }
             return Page();
