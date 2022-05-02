@@ -49,8 +49,12 @@ namespace Floppy.Managers.Users
             if (!userResult.Succeeded)
                 userResult.Error = "Неправильный логин или пароль";
 
-
             return userResult;
+        }
+
+        public async Task SignOutAsync()
+        {
+          await  _signInManager.SignOutAsync();
         }
     }
 }

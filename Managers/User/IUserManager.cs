@@ -7,5 +7,7 @@ namespace Floppy.Managers.Users
     {
         Task<SignResult> RegisterAsync(RegisterViewModel model);
         Task<SignResult> SignInAsync(LoginViewModel model);
+        Task SignOutAsync();
+
     }
 }
