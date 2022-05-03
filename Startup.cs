@@ -33,7 +33,8 @@ namespace Floppy
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
-            services.AddIdentity<User, IdentityRole>(options =>
+
+            services.AddIdentity<User, IdentityRole<int>>(options =>
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
@@ -49,7 +50,7 @@ namespace Floppy
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
-
+            app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

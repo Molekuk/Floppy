@@ -3,6 +3,7 @@ using Floppy.Models.UserModels;
 using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Floppy.Managers.Words
@@ -20,13 +21,13 @@ namespace Floppy.Managers.Words
         public async Task<IEnumerable<Word>> GetCurrentWordsAsync(string username)
         {
            var user = await _userManager.FindByNameAsync(username);
-            return user.CurrentWords;
+           return _context.UserWords.Where(w=>w.UserId==user.Id).Where(w=>w.Learned==false).Select(w=>w.Word);
         }
 
         public async Task<IEnumerable<Word>> GetLearnedWordsAsync(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            return user.LearnedWords;
+            return _context.UserWords.Where(w => w.UserId == user.Id).Where(w => w.Learned == true).Select(w => w.Word);
         }
 
         public async Task<IEnumerable<WordSet>> GetWordSetsAsync(string username)
@@ -35,23 +36,14 @@ namespace Floppy.Managers.Words
             return user.NotPurcharedWordSets;
         }
 
-        public async Task LearnWordAsync(string username, int id)
+        public Task LearnWordAsync(string username, int id)
         {
-            var user = await _userManager.FindByNameAsync(username);
-            var word = await _context.Words.FindAsync(id);
-            var currWords = user.CurrentWords;
-            var learnWords = user.LearnedWords;
-            currWords.Remove(word);
-            learnWords.Add(word);
+            throw new System.NotImplementedException();
         }
 
-        public async Task BuyWordSetAsync(string username, int id)
+        public Task BuyWordSetAsync(string username, int id)
         {
-            var user = await _userManager.FindByNameAsync(username);
-            var wordSets = user.NotPurcharedWordSets;
-            var wordSet = await _context.WordSets.FindAsync(id);
-            wordSets.Remove(wordSet);
-            user.Money -= wordSet.Price;
+            throw new System.NotImplementedException();
         }
     }
 }
