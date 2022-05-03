@@ -7,12 +7,10 @@
 <div class="main_block">
 
     @{
-        int count = 1;
-        int countlearned = 2;
         <table>
                     <tr class="choose_button">
-                        <td> <a asp-page="Dictionary" asp-page-handler="Current">На изучении &nbsp;</a> <h1>  (@count)</h1> </td>
-                        <td> <a asp-page="Dictionary" asp-page-handler="Learned">Изучено &nbsp;</a> <h1>  (@countlearned)</h1> </td>
+                        <td> <a asp-page="Dictionary" asp-page-handler="Current">На изучении &nbsp;</a> <h1>@ViewData["Count"]</h1> </td>
+                        <td> <a asp-page="Dictionary" asp-page-handler="Learned">Изучено &nbsp;</a> <h1>@ViewData["LearnCount"]</h1> </td>
                     </tr>
        </table>
     }
@@ -28,9 +26,11 @@
                             <h4 class="word_translation">@word.Translation</h4>
                         </div>
                         <h4 class="word_sentence">@word.Sentence</h4>
-                        <form method="post">
-                            <button class="button_words" name="wordid" value="1" type="submit">Перенести в изученные</button>
-                        </form>
+                        @if(!(bool)ViewData["Learned"]){
+                            <form method="post">
+                                <button class="button_words" name="wordid" value="@word.Id" type="submit">Перенести в изученные</button>
+                            </form>
+                        }
                     </div>
                     <div class="block_img">
                         <img class="word_img" src="@word.Image" />

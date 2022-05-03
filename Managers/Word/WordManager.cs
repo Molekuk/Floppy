@@ -2,6 +2,7 @@
 using Floppy.Models.UserModels;
 using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,9 +37,12 @@ namespace Floppy.Managers.Words
             return user.NotPurcharedWordSets;
         }
 
-        public Task LearnWordAsync(string username, int id)
+        public async Task LearnWordAsync(string username, int id)
         {
-            throw new System.NotImplementedException();
+            var user = await _userManager.FindByNameAsync(username);
+            var word = _context.UserWords.FirstOrDefault(w => w.UserId == user.Id && w.Id == id);
+            word.Learned = true;
+            await _context.SaveChangesAsync();
         }
 
         public Task BuyWordSetAsync(string username, int id)
