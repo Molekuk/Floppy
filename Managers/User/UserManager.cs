@@ -1,5 +1,7 @@
 ﻿using Floppy.Models.UserModels;
+using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +17,7 @@ namespace Floppy.Managers.Users
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
 
         public async Task<SignResult> RegisterAsync(RegisterViewModel model)
         {
@@ -32,7 +35,10 @@ namespace Floppy.Managers.Users
                 userResult.Succeeded = false;
             }
             else
+            {
                 userResult.Succeeded = (await _userManager.CreateAsync(user, model.Password)).Succeeded;
+                await _signInManager.SignInAsync(user, isPersistent: false);
+            }
             return userResult;
         }
 
