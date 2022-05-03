@@ -14,16 +14,16 @@
     <header>
         <div class="nav">
             <ul>
-                <li><a>ОБУЧЕНИЕ</a></li>
-                <li><a>СЛОВАРЬ</a></li>
+                <li><a asp-page="Lessons">ОБУЧЕНИЕ</a></li>
+                <li><a asp-page="Dictionary" asp-page-handler="Current">СЛОВАРЬ</a></li>
                 <li><a>ИСТОРИИ</a></li>
                 <li><a>МАГАЗИН</a></li>
             </ul>
         </div>
-        <div class="nav">
+        <div style="margin-right:25px" class="nav">
             <div class="person">
-            <a>@ViewBag.UserBalance</a>
-                <a href="#">@ViewBag.Username</a>
+            <a>150</a>
+                <a href="#">@User.Identity.Name</a>
             </div>
             <div class="submenu">
                 <div class="sub_item"><a >ЛИЧНЫЙ КАБИНЕТ</a></div>

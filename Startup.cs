@@ -1,4 +1,5 @@
 using Floppy.Managers.Users;
+using Floppy.Managers.Words;
 using Floppy.Models;
 using Floppy.Models.UserModels;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,7 @@ namespace Floppy
             }).AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
 
             services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IWordManager,WordManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
