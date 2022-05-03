@@ -51,7 +51,6 @@ namespace Floppy.Managers.Users
                 userResult.Succeeded = (await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false)).Succeeded;
 
 
-
             if (!userResult.Succeeded)
                 userResult.Error = "Неправильный логин или пароль";
 
