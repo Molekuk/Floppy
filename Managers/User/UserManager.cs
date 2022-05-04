@@ -18,6 +18,17 @@ namespace Floppy.Managers.Users
             _signInManager = signInManager;
         }
 
+        public async Task<int> GetBalanceAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user.Money;
+        }
+
+        public async Task<int> GetCurrentLessonAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user.CurrentLesson;
+        }
 
         public async Task<SignResult> RegisterAsync(RegisterViewModel model)
         {

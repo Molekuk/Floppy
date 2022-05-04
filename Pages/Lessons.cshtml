@@ -256,7 +256,7 @@
 
             @{ for (var j = 1; j <= 27; j++)
                             {
-                                if (j < (int)ViewData["Current"])
+                                if (j < @Model.CurrentLesson)
                                 {
                                     <style>
                                         .Circle_@j {
@@ -264,7 +264,7 @@
                                         }
                                     </style> 
                                  }
-                                else if (j == (int)ViewData["Current"])
+                                else if (j == @Model.CurrentLesson)
                                 {
                                     <style>
                                         .Circle_@j {
@@ -354,7 +354,7 @@
         var btn = document.getElementById('less_btn');
         var desc = document.getElementById('description');
         var number = document.getElementById('number');
-        var curr = @((int)ViewData["Current"]);
+        var curr = @Model.CurrentLesson;
         var description = ["Местоимения", "Present Simple", "Eдинственное и множественное число", "Глагол have", "Отрицательные и вопросительные предложения", "Глагол to be в Present Simple", "Глагол can", "Неопределенный артикль A/An, Нулевой артикль", "Числа и даты", "Выражение принадлежности", "Определенный артикль The", "Повелительное наклонение", "Конструкции There is/are", "Прошедшее время - Past Simple", "Глагол to be в Past Simple", "Неправильные глаголы", "Прилагательные и наречия ", "Степени сравнения прилагательных", "Предлоги места и направления", "Неопределенные местоимения some и any", "Будущее время - Future Simple", "Глагол to be в Future Simple", "Модальные глаголы", "Предлоги времени", "Настоящее длительное время - Present Continuous", "Much и many, few и little", "Союзы and, but, or; so, because"];
         
         function getid(id) {
