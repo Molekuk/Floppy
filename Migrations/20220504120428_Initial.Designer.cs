@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Floppy.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220503165220_Initial")]
+    [Migration("20220504120428_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,61 @@ namespace Floppy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Floppy.Models.StoryModels.Story", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Translation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stories");
+                });
+
+            modelBuilder.Entity("Floppy.Models.StoryModels.UserStory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Purchared")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("StoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserStories");
+                });
 
             modelBuilder.Entity("Floppy.Models.UserModels.User", b =>
                 {
@@ -167,12 +222,7 @@ namespace Floppy.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("WordSets");
                 });
@@ -307,6 +357,25 @@ namespace Floppy.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Floppy.Models.StoryModels.UserStory", b =>
+                {
+                    b.HasOne("Floppy.Models.StoryModels.Story", "Story")
+                        .WithMany("UserStories")
+                        .HasForeignKey("StoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Floppy.Models.UserModels.User", "User")
+                        .WithMany("UserStories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Story");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Floppy.Models.WordModels.UserWord", b =>
                 {
                     b.HasOne("Floppy.Models.UserModels.User", "User")
@@ -333,13 +402,6 @@ namespace Floppy.Migrations
                         .HasForeignKey("WordSetId");
 
                     b.Navigation("WordSet");
-                });
-
-            modelBuilder.Entity("Floppy.Models.WordModels.WordSet", b =>
-                {
-                    b.HasOne("Floppy.Models.UserModels.User", null)
-                        .WithMany("NotPurcharedWordSets")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -393,9 +455,14 @@ namespace Floppy.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Floppy.Models.StoryModels.Story", b =>
+                {
+                    b.Navigation("UserStories");
+                });
+
             modelBuilder.Entity("Floppy.Models.UserModels.User", b =>
                 {
-                    b.Navigation("NotPurcharedWordSets");
+                    b.Navigation("UserStories");
 
                     b.Navigation("UserWords");
                 });
