@@ -12,5 +12,6 @@ namespace Floppy.Models.UserModels
         public int CurrentLesson { get; set; }
         public List<UserWord> UserWords { get; set; }
         public List<UserStory> UserStories { get; set; }
+        public List<UserWordSet> UserWordSets { get; set; }
     }
 }

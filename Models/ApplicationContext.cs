@@ -10,11 +10,11 @@ namespace Floppy.Models
     public class ApplicationContext:IdentityDbContext<User, IdentityRole<int>, int>
     {
         public DbSet<Word> Words { get; set; }
-        public DbSet<WordSet> WordSets { get; set; }
         public DbSet<UserWord> UserWords { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<UserStory> UserStories { get; set; }
-
+        public DbSet<WordSet> WordSets { get; set; }
+        public DbSet<UserWordSet> UserWordSets { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
         }

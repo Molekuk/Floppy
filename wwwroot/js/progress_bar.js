@@ -18,4 +18,4 @@ $(document).ready(function () {
 	var animate = setInterval(function () {
 		loading();
 	}, time);
-};
+});
