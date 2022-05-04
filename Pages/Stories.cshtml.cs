@@ -15,20 +15,9 @@ namespace Floppy.Pages
         {
             _storyManager = storyManager;
         }
-        public async Task OnGetCurrentAsync()
-        {
-            Stories = await _storyManager.GetCurrentStoriesAsync(User.Identity.Name);
-        }
-
-        public async Task OnGetPurcharedAsync()
+        public async Task OnGetAsync()
         {
             Stories = await _storyManager.GetPurcharedStoriesAsync(User.Identity.Name);
         }
-
-        //public async Task<IActionResult> OnPost(int wordId)
-        //{
-        //    await _wordManager.LearnWordAsync(User.Identity.Name, wordId);
-        //    return RedirectToPage("Dictionary", "Current", null);
-        //}
     }
 }

@@ -30,6 +30,7 @@ namespace Floppy.Managers.Stories
         {
             var user = await _userManager.FindByNameAsync(username);
             return _context.UserStories.Where(s => s.UserId == user.Id).Where(s => s.Purchared == false).Select(s => s.Story);
+            
         }
 
         public async Task<IEnumerable<Story>> GetPurcharedStoriesAsync(string username)

@@ -9,6 +9,8 @@ namespace Floppy.Managers.Users
     {
         Task<SignResult> RegisterAsync(RegisterViewModel model);
         Task<SignResult> SignInAsync(LoginViewModel model);
+        Task<int> GetBalanceAsync(string username);
+        Task<int> GetCurrentLessonAsync(string username);
         Task SignOutAsync();
 
     }

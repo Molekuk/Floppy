@@ -7,18 +7,20 @@ namespace Floppy.Pages.Lesson
 {
     public class LessonsModel : PageModel
     {
-        public LessonsModel()
+        public int CurrentLesson { get; set; }
+        private readonly IUserManager _userManager;
+        public LessonsModel(IUserManager userManager)
         {
-
+            _userManager = userManager;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            ViewData["Current"] = 5;
+            CurrentLesson =  await _userManager.GetCurrentLessonAsync(User.Identity.Name);
         }
-        public async Task<IActionResult> OnGetExitAsync([FromServices] IUserManager userManager)
+        public async Task<IActionResult> OnGetExitAsync()
         {
-           await userManager.SignOutAsync();
+           await _userManager.SignOutAsync();
            return RedirectToPage("Index");
         }
     }

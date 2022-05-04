@@ -1,4 +1,4 @@
-﻿@page "{handler}"
+﻿@page 
 @model Floppy.Pages.StoriesModel
 
     <div class="main_block">
@@ -10,7 +10,7 @@
                     <div class="no_stories">
                         <h1>У вас нет историй</h1>
                         <form method="get">
-                            <button type="submit" asp-page="Store">Перейти в магазин</button>
+                            <button type="submit" asp-page="Store" asp-page-handler="Stories">Перейти в магазин</button>
                         </form>
                     </div>
                 }

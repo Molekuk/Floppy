@@ -1,0 +1,59 @@
+﻿@page 
+@model Floppy.Pages.StoreModel
+@{
+}
+<div class="animation_block">
+
+        <table>
+            <tr class="choose_button">
+                <td> <a asp-page="Store" asp-page-handler="Stories">Истории</a></td>
+                <td> <a asp-page="Store" asp-page-handler="Words">Наборы слов</a></td>
+            </tr>
+        </table>
+
+        <div class="main_block">
+
+
+            <div class="store">
+                @{
+                    foreach (var story in Model.Stories)
+                    {
+                                <div class="card_story">
+                                    <div class="about_story">
+
+                                        <div class="image_story">
+                                            <img src="@story.Image">
+                                        </div>
+
+                                        <div class="text_story">
+                                            <h2>@story.Title</h2>
+
+                                            <div class="description_story">
+                                                <p>@story.Description</p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    @if (story.Price > Model.Balance)
+                                    {
+                                        <form method="post">
+                                            <button type="submit" disabled="disabled" class="button_story" name="storyid" value="@story.Id">Недостаточно монет</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form method="post">
+                                            <button type="submit" class="button_story" name="id" asp-page="Store" value="@story.Id">Купить за @story.Price монет</button>
+                                        </form>
+                                    }
+
+                                </div>
+                        }
+
+                    }
+
+            </div>
+        </div>
+    </div>
