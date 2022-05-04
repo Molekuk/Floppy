@@ -10,5 +10,6 @@ namespace Floppy.Models.WordModels
         public string Image { get; set; }
         public bool IsInLesson { get; set; }
         public List<Word> Words { get; set; }
+        public List<UserWordSet> UserWordSets { get; set; }
     }
 }

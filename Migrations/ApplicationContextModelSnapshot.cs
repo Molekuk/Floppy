@@ -172,6 +172,31 @@ namespace Floppy.Migrations
                     b.ToTable("UserWords");
                 });
 
+            modelBuilder.Entity("Floppy.Models.WordModels.UserWordSet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Purchared")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WordSetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WordSetId");
+
+                    b.ToTable("UserWordSets");
+                });
+
             modelBuilder.Entity("Floppy.Models.WordModels.Word", b =>
                 {
                     b.Property<int>("Id")
@@ -393,6 +418,25 @@ namespace Floppy.Migrations
                     b.Navigation("Word");
                 });
 
+            modelBuilder.Entity("Floppy.Models.WordModels.UserWordSet", b =>
+                {
+                    b.HasOne("Floppy.Models.UserModels.User", "User")
+                        .WithMany("UserWordSets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Floppy.Models.WordModels.WordSet", "WordSet")
+                        .WithMany("UserWordSets")
+                        .HasForeignKey("WordSetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("WordSet");
+                });
+
             modelBuilder.Entity("Floppy.Models.WordModels.Word", b =>
                 {
                     b.HasOne("Floppy.Models.WordModels.WordSet", "WordSet")
@@ -463,6 +507,8 @@ namespace Floppy.Migrations
                     b.Navigation("UserStories");
 
                     b.Navigation("UserWords");
+
+                    b.Navigation("UserWordSets");
                 });
 
             modelBuilder.Entity("Floppy.Models.WordModels.Word", b =>
@@ -472,6 +518,8 @@ namespace Floppy.Migrations
 
             modelBuilder.Entity("Floppy.Models.WordModels.WordSet", b =>
                 {
+                    b.Navigation("UserWordSets");
+
                     b.Navigation("Words");
                 });
 #pragma warning restore 612, 618

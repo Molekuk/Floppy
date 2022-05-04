@@ -218,6 +218,33 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserWordSets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    WordSetId = table.Column<int>(type: "int", nullable: false),
+                    Purchared = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserWordSets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserWordSets_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserWordSets_WordSets_WordSetId",
+                        column: x => x.WordSetId,
+                        principalTable: "WordSets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Words",
                 columns: table => new
                 {
@@ -327,6 +354,16 @@ namespace Floppy.Migrations
                 column: "WordId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserWordSets_UserId",
+                table: "UserWordSets",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserWordSets_WordSetId",
+                table: "UserWordSets",
+                column: "WordSetId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Words_WordSetId",
                 table: "Words",
                 column: "WordSetId");
@@ -356,16 +393,19 @@ namespace Floppy.Migrations
                 name: "UserWords");
 
             migrationBuilder.DropTable(
+                name: "UserWordSets");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Stories");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Words");
 
             migrationBuilder.DropTable(
-                name: "Words");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "WordSets");

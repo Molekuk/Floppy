@@ -22,7 +22,9 @@ namespace Floppy.Managers.Stories
         {
             var user = await _userManager.FindByNameAsync(username);
             var story = _context.UserStories.FirstOrDefault(s => s.UserId == user.Id && s.Id == id);
+            var price = (await _context.Stories.FindAsync(id)).Price;
             story.Purchared = true;
+            user.Money-=price;
             await _context.SaveChangesAsync();
         }
 
