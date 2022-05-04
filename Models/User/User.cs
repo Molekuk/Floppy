@@ -1,4 +1,5 @@
-﻿using Floppy.Models.WordModels;
+﻿using Floppy.Models.StoryModels;
+using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace Floppy.Models.UserModels
         public int Money { get; set; }
         public int CurrentLesson { get; set; }
         public List<UserWord> UserWords { get; set; }
-        public List<WordSet> NotPurcharedWordSets { get; set; }
+        public List<UserStory> UserStories { get; set; }
     }
 }

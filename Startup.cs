@@ -1,3 +1,4 @@
+using Floppy.Managers.Stories;
 using Floppy.Managers.Users;
 using Floppy.Managers.Words;
 using Floppy.Models;
@@ -45,6 +46,7 @@ namespace Floppy
 
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IWordManager,WordManager>();
+            services.AddScoped<IStoryManager,StoryManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

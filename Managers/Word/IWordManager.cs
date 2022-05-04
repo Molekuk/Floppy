@@ -8,7 +8,7 @@ namespace Floppy.Managers.Words
     {
         public Task<IEnumerable<Word>> GetCurrentWordsAsync(string username);
         public Task<IEnumerable<Word>> GetLearnedWordsAsync(string username);
-        public Task<IEnumerable<WordSet>> GetWordSetsAsync(string username);
+       // public Task<IEnumerable<WordSet>> GetWordSetsAsync(string username);
         public Task LearnWordAsync(string username, int id);
         public Task BuyWordSetAsync(string username, int id);
     }

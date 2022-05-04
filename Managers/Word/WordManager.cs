@@ -31,11 +31,11 @@ namespace Floppy.Managers.Words
             return _context.UserWords.Where(w => w.UserId == user.Id).Where(w => w.Learned == true).Select(w => w.Word);
         }
 
-        public async Task<IEnumerable<WordSet>> GetWordSetsAsync(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            return user.NotPurcharedWordSets;
-        }
+       //public async Task<IEnumerable<WordSet>> GetWordSetsAsync(string username)
+       //{
+       //    var user = await _userManager.FindByNameAsync(username);
+       //    return user;
+       //}
 
         public async Task LearnWordAsync(string username, int id)
         {

@@ -51,6 +51,40 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Stories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tale = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Translation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WordSets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsInLesson = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WordSets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -157,26 +191,30 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WordSets",
+                name: "UserStories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsInLesson = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    StoryId = table.Column<int>(type: "int", nullable: false),
+                    Purchared = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WordSets", x => x.Id);
+                    table.PrimaryKey("PK_UserStories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WordSets_AspNetUsers_UserId",
+                        name: "FK_UserStories_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserStories_Stories_StoryId",
+                        column: x => x.StoryId,
+                        principalTable: "Stories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,6 +307,16 @@ namespace Floppy.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserStories_StoryId",
+                table: "UserStories",
+                column: "StoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserStories_UserId",
+                table: "UserStories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserWords_UserId",
                 table: "UserWords",
                 column: "UserId");
@@ -282,11 +330,6 @@ namespace Floppy.Migrations
                 name: "IX_Words_WordSetId",
                 table: "Words",
                 column: "WordSetId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WordSets_UserId",
-                table: "WordSets",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -307,19 +350,25 @@ namespace Floppy.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "UserStories");
+
+            migrationBuilder.DropTable(
                 name: "UserWords");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Stories");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Words");
 
             migrationBuilder.DropTable(
                 name: "WordSets");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }
