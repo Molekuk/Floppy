@@ -1,4 +1,4 @@
-# Floppy
+# Floppy English
 Web application for learning English
 <h3>Technology stack</h3>
 <ul>
