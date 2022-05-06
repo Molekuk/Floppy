@@ -6,9 +6,9 @@ namespace Floppy.Managers.Stories
 {
     public interface IStoryManager
     {
-        public Task<IEnumerable<Story>> GetCurrentStoriesAsync(string username);
-        public Task<IEnumerable<Story>> GetPurcharedStoriesAsync(string username);
-        public Task<Story> GetStoryAsync(int id);
-        public Task BuyStoryAsync(string username, int id);
+       Task<IEnumerable<Story>> GetCurrentStoriesAsync(string username);
+       Task<IEnumerable<Story>> GetPurcharedStoriesAsync(string username);
+       Task<Story> GetStoryAsync(int id);
+       Task BuyStoryAsync(string username, int id);
     }
 }
