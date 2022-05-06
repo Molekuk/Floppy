@@ -60,7 +60,7 @@ namespace Floppy.Managers.Words
             var words = from words1 in _context.WordSets.Include(w => w.Words)
                         from word in words1.Words
                         select word;
-            user.Money -= price;
+            user.Money -= price.Value;
             foreach (var word in words)
             {
                 user.UserWords.Add(new UserWord {User = user,UserId=user.Id,Word=word,WordId=word.Id,Learned=false});

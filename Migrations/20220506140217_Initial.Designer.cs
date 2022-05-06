@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Floppy.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220504153657_Initial")]
+    [Migration("20220506140217_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,115 @@ namespace Floppy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.Exercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId")
+                        .IsUnique();
+
+                    b.ToTable("Exercise");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.ExerciseExample", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Answer1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Answer2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Answer3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Answer4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CorrectAnswer")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ExerciseExample");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.Grammar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId")
+                        .IsUnique();
+
+                    b.ToTable("Grammar");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.GrammarExample", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Example")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GrammarId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Theory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrammarId");
+
+                    b.ToTable("GrammarExample");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.Lesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Lessons");
+                });
 
             modelBuilder.Entity("Floppy.Models.StoryModels.Story", b =>
                 {
@@ -74,6 +183,33 @@ namespace Floppy.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserStories");
+                });
+
+            modelBuilder.Entity("Floppy.Models.UserModels.Progress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("ExerciseComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("GrammarComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WordsComplete")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Progress");
                 });
 
             modelBuilder.Entity("Floppy.Models.UserModels.User", b =>
@@ -238,16 +374,20 @@ namespace Floppy.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsInLesson")
-                        .HasColumnType("bit");
+                    b.Property<int?>("LessonId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
+                    b.Property<int?>("Price")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LessonId")
+                        .IsUnique()
+                        .HasFilter("[LessonId] IS NOT NULL");
 
                     b.ToTable("WordSets");
                 });
@@ -382,6 +522,46 @@ namespace Floppy.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Floppy.Models.LessonModels.Exercise", b =>
+                {
+                    b.HasOne("Floppy.Models.LessonModels.Lesson", "Lesson")
+                        .WithOne("Exercise")
+                        .HasForeignKey("Floppy.Models.LessonModels.Exercise", "LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.ExerciseExample", b =>
+                {
+                    b.HasOne("Floppy.Models.LessonModels.Exercise", "Exercise")
+                        .WithMany("Examples")
+                        .HasForeignKey("ExerciseId");
+
+                    b.Navigation("Exercise");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.Grammar", b =>
+                {
+                    b.HasOne("Floppy.Models.LessonModels.Lesson", "Lesson")
+                        .WithOne("Grammar")
+                        .HasForeignKey("Floppy.Models.LessonModels.Grammar", "LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.GrammarExample", b =>
+                {
+                    b.HasOne("Floppy.Models.LessonModels.Grammar", "Grammar")
+                        .WithMany("Examples")
+                        .HasForeignKey("GrammarId");
+
+                    b.Navigation("Grammar");
+                });
+
             modelBuilder.Entity("Floppy.Models.StoryModels.UserStory", b =>
                 {
                     b.HasOne("Floppy.Models.StoryModels.Story", "Story")
@@ -397,6 +577,17 @@ namespace Floppy.Migrations
                         .IsRequired();
 
                     b.Navigation("Story");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Floppy.Models.UserModels.Progress", b =>
+                {
+                    b.HasOne("Floppy.Models.UserModels.User", "User")
+                        .WithOne("Progress")
+                        .HasForeignKey("Floppy.Models.UserModels.Progress", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -446,6 +637,15 @@ namespace Floppy.Migrations
                         .HasForeignKey("WordSetId");
 
                     b.Navigation("WordSet");
+                });
+
+            modelBuilder.Entity("Floppy.Models.WordModels.WordSet", b =>
+                {
+                    b.HasOne("Floppy.Models.LessonModels.Lesson", "Lesson")
+                        .WithOne("WordSet")
+                        .HasForeignKey("Floppy.Models.WordModels.WordSet", "LessonId");
+
+                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -499,6 +699,25 @@ namespace Floppy.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Floppy.Models.LessonModels.Exercise", b =>
+                {
+                    b.Navigation("Examples");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.Grammar", b =>
+                {
+                    b.Navigation("Examples");
+                });
+
+            modelBuilder.Entity("Floppy.Models.LessonModels.Lesson", b =>
+                {
+                    b.Navigation("Exercise");
+
+                    b.Navigation("Grammar");
+
+                    b.Navigation("WordSet");
+                });
+
             modelBuilder.Entity("Floppy.Models.StoryModels.Story", b =>
                 {
                     b.Navigation("UserStories");
@@ -506,6 +725,8 @@ namespace Floppy.Migrations
 
             modelBuilder.Entity("Floppy.Models.UserModels.User", b =>
                 {
+                    b.Navigation("Progress");
+
                     b.Navigation("UserStories");
 
                     b.Navigation("UserWords");

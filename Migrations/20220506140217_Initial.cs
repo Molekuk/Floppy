@@ -51,6 +51,19 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Lessons",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stories",
                 columns: table => new
                 {
@@ -66,22 +79,6 @@ namespace Floppy.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WordSets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsInLesson = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WordSets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,6 +188,88 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Progress",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WordsComplete = table.Column<bool>(type: "bit", nullable: false),
+                    GrammarComplete = table.Column<bool>(type: "bit", nullable: false),
+                    ExerciseComplete = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Progress", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Progress_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exercise",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LessonId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Exercise_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grammar",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LessonId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grammar", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Grammar_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WordSets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LessonId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WordSets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WordSets_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserStories",
                 columns: table => new
                 {
@@ -215,6 +294,52 @@ namespace Floppy.Migrations
                         principalTable: "Stories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExerciseExample",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Question = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Answer1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Answer2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Answer3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Answer4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CorrectAnswer = table.Column<int>(type: "int", nullable: false),
+                    ExerciseId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseExample", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExerciseExample_Exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GrammarExample",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Theory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Example = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GrammarId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GrammarExample", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GrammarExample_Grammar_GrammarId",
+                        column: x => x.GrammarId,
+                        principalTable: "Grammar",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -334,6 +459,34 @@ namespace Floppy.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exercise_LessonId",
+                table: "Exercise",
+                column: "LessonId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseExample_ExerciseId",
+                table: "ExerciseExample",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grammar_LessonId",
+                table: "Grammar",
+                column: "LessonId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GrammarExample_GrammarId",
+                table: "GrammarExample",
+                column: "GrammarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Progress_UserId",
+                table: "Progress",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserStories_StoryId",
                 table: "UserStories",
                 column: "StoryId");
@@ -367,6 +520,13 @@ namespace Floppy.Migrations
                 name: "IX_Words_WordSetId",
                 table: "Words",
                 column: "WordSetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WordSets_LessonId",
+                table: "WordSets",
+                column: "LessonId",
+                unique: true,
+                filter: "[LessonId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -387,6 +547,15 @@ namespace Floppy.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ExerciseExample");
+
+            migrationBuilder.DropTable(
+                name: "GrammarExample");
+
+            migrationBuilder.DropTable(
+                name: "Progress");
+
+            migrationBuilder.DropTable(
                 name: "UserStories");
 
             migrationBuilder.DropTable(
@@ -399,6 +568,12 @@ namespace Floppy.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Exercise");
+
+            migrationBuilder.DropTable(
+                name: "Grammar");
+
+            migrationBuilder.DropTable(
                 name: "Stories");
 
             migrationBuilder.DropTable(
@@ -409,6 +584,9 @@ namespace Floppy.Migrations
 
             migrationBuilder.DropTable(
                 name: "WordSets");
+
+            migrationBuilder.DropTable(
+                name: "Lessons");
         }
     }
 }

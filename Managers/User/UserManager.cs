@@ -1,6 +1,8 @@
-﻿using Floppy.Models.UserModels;
+﻿using Floppy.Models;
+using Floppy.Models.UserModels;
 using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +13,14 @@ namespace Floppy.Managers.Users
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationContext _context;
 
-        public UserManager(UserManager<User> userManager, SignInManager<User> signInManager)
+
+        public UserManager(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public async Task<int> GetBalanceAsync(string username)
@@ -30,11 +35,17 @@ namespace Floppy.Managers.Users
             return user.CurrentLesson;
         }
 
+        public async Task<Progress> GetProgressAsync(string username)
+        {
+            var id = (await _userManager.FindByNameAsync(username)).Id;
+            var user = _context.Users.Include(u=>u.Progress).FirstOrDefault(u=>u.Id==id);
+            return user.Progress;
+        }
+
         public async Task<SignResult> RegisterAsync(RegisterViewModel model)
         {
-            User user = new User { Email = model.Email, UserName = model.Login,Money = 0 };
+            User user = new User { Email = model.Email, UserName = model.Login,Money = 0,CurrentLesson=1 };
             var userResult = new SignResult();
-
             if ((await _userManager.FindByEmailAsync(model.Email)) != null)
             {
                 userResult.Error = "Пользователь с таким email уже существует";
@@ -48,6 +59,10 @@ namespace Floppy.Managers.Users
             else
             {
                 userResult.Succeeded = (await _userManager.CreateAsync(user, model.Password)).Succeeded;
+                user = await _userManager.FindByNameAsync(model.Login);
+                var progress = new Progress() { ExerciseComplete = false, GrammarComplete = false, WordsComplete = false, User = user, UserId = user.Id };
+                user.Progress = progress;
+                await _context.SaveChangesAsync();
                 await _signInManager.SignInAsync(user, isPersistent: false);
             }
             return userResult;

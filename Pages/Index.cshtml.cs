@@ -1,6 +1,7 @@
 using Floppy.Managers.Users;
 using Floppy.Models;
 using Floppy.Models.UserModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ namespace Floppy.Pages
         public IActionResult OnGet()
         {
             if (User.Identity.IsAuthenticated)
+            {
                 return RedirectToPage("Lessons");
+            }
             else
                 return Page();
         }
@@ -33,7 +36,9 @@ namespace Floppy.Pages
                 if (!result.Succeeded)
                     ModelState.AddModelError("", result.Error);
                 else
+                {
                     return RedirectToPage("Lessons");
+                }
             }
             return Page();
         }
@@ -45,8 +50,10 @@ namespace Floppy.Pages
                 var result = await _userManager.SignInAsync(model);
                 if (!result.Succeeded)
                     ModelState.AddModelError("", result.Error);
-                else 
+                else
+                {
                     return RedirectToPage("Lessons");
+                }
             }
             return Page();
         }

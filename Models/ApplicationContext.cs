@@ -1,4 +1,5 @@
-﻿using Floppy.Models.StoryModels;
+﻿using Floppy.Models.LessonModels;
+using Floppy.Models.StoryModels;
 using Floppy.Models.UserModels;
 using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,8 @@ namespace Floppy.Models
         public DbSet<UserStory> UserStories { get; set; }
         public DbSet<WordSet> WordSets { get; set; }
         public DbSet<UserWordSet> UserWordSets { get; set; }
+
+        public DbSet<Lesson> Lessons { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
         }
