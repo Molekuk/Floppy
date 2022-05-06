@@ -34,6 +34,8 @@ namespace Floppy
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services.AddIdentity<User, IdentityRole<int>>(options =>
             {
@@ -55,6 +57,7 @@ namespace Floppy
             app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 

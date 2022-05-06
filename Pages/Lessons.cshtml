@@ -301,7 +301,7 @@
             <div class="about_list">
                 <div class="lesson_block">
                     <p>Всего слов:</p>
-                    <p>@ViewBag.Numberwords</p>
+                    <p>21</p>
                 </div>
 
                 <div class="lesson_block">
@@ -314,12 +314,12 @@
             <div class="about_list">
                 <div class="lesson_block">
                     <p>Текущий урок:</p>
-                    <p>@ViewBag.Currentlesson</p>
+                    <p>1</p>
                 </div>
 
                 <div class="lesson_block">
                     <p>Тема:</p>
-                    <p>@ViewBag.Lessontheme</p>
+                    <p>1</p>
                 </div>
             </div>
         </div>
@@ -340,9 +340,9 @@
                     <h3 id="description">
                     </h3>
                 </div>
-                <img src="~/img/lesson/profile.svg" />
+                <img src="~/img/lesson/books.svg" />
                 <form method="post">
-                    <button id="less_btn" class="btn_go" type="submit" name="lessonid" value="">Изучать</button>
+                    <button id="less_btn" class="btn_go" type="submit" name="id" asp-page="LessonTask">Изучать</button>
                 </form>
             </div>
         </div>
