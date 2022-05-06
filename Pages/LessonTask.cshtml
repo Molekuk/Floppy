@@ -9,8 +9,7 @@
                 <img src="~/img/lesson/shape1.svg" />
             </div> 
             <form method="post">
-                <button name="lessonID" class="button_task" type="submit" value="@ViewBag.Id" >Начать</button>
-                <input style="display:none" name="action" value="1"/>
+                <button name="lessonid" class="button_task" type="submit" value="@Model.Id" asp-page="LessonWords">Начать</button>
             </form>  
         </div>
 
@@ -30,8 +29,7 @@
                 else
                 {
                     <form method="post">
-                        <button name="lessonID" class="button_task" type="submit" value="@ViewBag.Id">Начать</button>
-                        <input style="display:none" name="action" value="2"/>
+                        <button name="id" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonTask" asp-page-handler="Grammar">Начать</button>
                     </form>
                 }
             }
@@ -53,8 +51,7 @@
                 else
                 {
                     <form method="post">
-                        <button name="lessonID" class="button_task" type="submit" value="@ViewBag.Id">Начать</button>
-                        <input style="display:none" name="action" value="3"/>
+                        <button name="id" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonTask" asp-page-handler="Exercise">Начать</button>
                     </form>
                 }
             }
