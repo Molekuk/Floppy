@@ -34,7 +34,7 @@ namespace Floppy.Migrations
                     b.HasIndex("LessonId")
                         .IsUnique();
 
-                    b.ToTable("Exercise");
+                    b.ToTable("Exercises");
                 });
 
             modelBuilder.Entity("Floppy.Models.LessonModels.ExerciseExample", b =>
@@ -87,7 +87,7 @@ namespace Floppy.Migrations
                     b.HasIndex("LessonId")
                         .IsUnique();
 
-                    b.ToTable("Grammar");
+                    b.ToTable("Grammars");
                 });
 
             modelBuilder.Entity("Floppy.Models.LessonModels.GrammarExample", b =>

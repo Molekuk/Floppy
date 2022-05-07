@@ -210,7 +210,7 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercise",
+                name: "Exercises",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -219,9 +219,9 @@ namespace Floppy.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                    table.PrimaryKey("PK_Exercises", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exercise_Lessons_LessonId",
+                        name: "FK_Exercises_Lessons_LessonId",
                         column: x => x.LessonId,
                         principalTable: "Lessons",
                         principalColumn: "Id",
@@ -229,7 +229,7 @@ namespace Floppy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Grammar",
+                name: "Grammars",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -238,9 +238,9 @@ namespace Floppy.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grammar", x => x.Id);
+                    table.PrimaryKey("PK_Grammars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Grammar_Lessons_LessonId",
+                        name: "FK_Grammars_Lessons_LessonId",
                         column: x => x.LessonId,
                         principalTable: "Lessons",
                         principalColumn: "Id",
@@ -314,9 +314,9 @@ namespace Floppy.Migrations
                 {
                     table.PrimaryKey("PK_ExerciseExample", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseExample_Exercise_ExerciseId",
+                        name: "FK_ExerciseExample_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "Exercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -335,9 +335,9 @@ namespace Floppy.Migrations
                 {
                     table.PrimaryKey("PK_GrammarExample", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GrammarExample_Grammar_GrammarId",
+                        name: "FK_GrammarExample_Grammars_GrammarId",
                         column: x => x.GrammarId,
-                        principalTable: "Grammar",
+                        principalTable: "Grammars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -459,19 +459,13 @@ namespace Floppy.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercise_LessonId",
-                table: "Exercise",
-                column: "LessonId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ExerciseExample_ExerciseId",
                 table: "ExerciseExample",
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grammar_LessonId",
-                table: "Grammar",
+                name: "IX_Exercises_LessonId",
+                table: "Exercises",
                 column: "LessonId",
                 unique: true);
 
@@ -479,6 +473,12 @@ namespace Floppy.Migrations
                 name: "IX_GrammarExample_GrammarId",
                 table: "GrammarExample",
                 column: "GrammarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grammars_LessonId",
+                table: "Grammars",
+                column: "LessonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Progress_UserId",
@@ -568,10 +568,10 @@ namespace Floppy.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Exercise");
+                name: "Exercises");
 
             migrationBuilder.DropTable(
-                name: "Grammar");
+                name: "Grammars");
 
             migrationBuilder.DropTable(
                 name: "Stories");

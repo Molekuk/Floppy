@@ -29,7 +29,7 @@
                 else
                 {
                     <form method="post">
-                        <button name="id" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonTask" asp-page-handler="Grammar">Начать</button>
+                        <button name="lessonId" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonGrammar">Начать</button>
                     </form>
                 }
             }
@@ -51,7 +51,7 @@
                 else
                 {
                     <form method="post">
-                        <button name="id" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonTask" asp-page-handler="Exercise">Начать</button>
+                        <button name="lessonId" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonExercise">Начать</button>
                     </form>
                 }
             }
