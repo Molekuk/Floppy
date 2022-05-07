@@ -18,6 +18,8 @@ namespace Floppy.Models
         public DbSet<UserWordSet> UserWordSets { get; set; }
 
         public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<Grammar> Grammars { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
         }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Floppy.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220506140217_Initial")]
+    [Migration("20220507094919_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace Floppy.Migrations
                     b.HasIndex("LessonId")
                         .IsUnique();
 
-                    b.ToTable("Exercise");
+                    b.ToTable("Exercises");
                 });
 
             modelBuilder.Entity("Floppy.Models.LessonModels.ExerciseExample", b =>
@@ -89,7 +89,7 @@ namespace Floppy.Migrations
                     b.HasIndex("LessonId")
                         .IsUnique();
 
-                    b.ToTable("Grammar");
+                    b.ToTable("Grammars");
                 });
 
             modelBuilder.Entity("Floppy.Models.LessonModels.GrammarExample", b =>
