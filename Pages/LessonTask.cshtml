@@ -19,8 +19,14 @@
             <div class="img_task">
                 <img src="~/img/lesson/shape2.svg" />
             </div>
-            @{
-                if (!Model.Progress.WordsComplete)
+        @{
+                if (Model.Id < Model.Current)
+                {
+                     <form method="post">
+                            <button name="lessonId" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonGrammar">Начать</button>
+                        </form>
+                }
+                else if (!Model.Progress.WordsComplete)
                 {
                     <form>
                         <button disabled="disabled" class="button_task">Начать</button>
@@ -42,7 +48,13 @@
                 <img src="~/img/lesson/shape3.svg" />
             </div>
             @{
-                if (!Model.Progress.GrammarComplete)
+                if (Model.Id < Model.Current)
+                {
+                     <form method="post">
+                        <button name="lessonId" class="button_task" type="submit" value="@Model.Id"  asp-page="LessonExercise">Начать</button>
+                    </form>
+                }
+                else if (!Model.Progress.GrammarComplete)
                 {
                     <form>
                         <button disabled="disabled" class="button_task">Начать</button>
