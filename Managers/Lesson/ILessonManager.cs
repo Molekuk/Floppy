@@ -10,9 +10,8 @@ namespace Floppy.Managers.Lessons
         Task<IEnumerable<Word>> GetWordsAsync(int lessonId);
         Task<IEnumerable<GrammarExample>> GetGrammarsAsync(int lessonId);
         Task<IEnumerable<ExerciseExample>> GetExercisesAsync(int lessonId);
-        Task LearnWordsAsync(string username);
+        Task LearnWordsAsync(string username,int lessonid);
         Task LearnGrammarAsync(string username);
-        Task LearnExerciseAsync(string username);
-
+        Task AddMoneyAsync(string username,int correctAnswers);
     }
 }

@@ -15,6 +15,17 @@ namespace Floppy.Managers.Lessons
             _context = context;
         }
 
+        public async Task AddMoneyAsync(string username, int correctAnswers)
+        {
+            var user = await _context.Users.Include(u => u.Progress).FirstOrDefaultAsync(u => u.UserName == username);
+            user.Money += correctAnswers * 10;
+            user.Progress.WordsComplete = false;
+            user.Progress.GrammarComplete = false;
+            user.Progress.ExerciseComplete = false;
+            user.CurrentLesson += 1;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<ExerciseExample>> GetExercisesAsync(int lessonId)
         {
             var lesson = await _context.Lessons.Include(l => l.Exercise).FirstOrDefaultAsync(l => l.Id == lessonId);
@@ -36,13 +47,6 @@ namespace Floppy.Managers.Lessons
             return (await _context.WordSets.Include(w => w.Words).FirstOrDefaultAsync(w => w.Id == wordsetId)).Words;
         }
 
-        public async Task LearnExerciseAsync(string username)
-        {
-            var user = await _context.Users.Include(u => u.Progress).FirstOrDefaultAsync(u => u.UserName == username);
-            user.Progress.ExerciseComplete = true;
-            await _context.SaveChangesAsync();
-        }
-
         public async Task LearnGrammarAsync(string username)
         {
             var user = await _context.Users.Include(u => u.Progress).FirstOrDefaultAsync(u => u.UserName == username);
@@ -50,10 +54,15 @@ namespace Floppy.Managers.Lessons
             await _context.SaveChangesAsync();
         }
 
-        public async Task LearnWordsAsync(string username)
+        public async Task LearnWordsAsync(string username,int lessonid)
         {
-            var user  = await _context.Users.Include(u=>u.Progress).FirstOrDefaultAsync(u => u.UserName == username);
+            var user  = await _context.Users.Include(u=>u.Progress).Include(u=>u.UserWords).FirstOrDefaultAsync(u => u.UserName == username);
             user.Progress.WordsComplete = true;
+            var wordSet= (await _context.Lessons.Include(l => l.WordSet).ThenInclude(w=>w.Words).FirstOrDefaultAsync(l => l.Id == lessonid)).WordSet;
+            foreach(var word in wordSet.Words)
+            {
+                user.UserWords.Add(new UserWord { Learned=false,Word=word,User=user,UserId=user.Id,WordId=word.Id });
+            }
             await _context.SaveChangesAsync();
         }
     }

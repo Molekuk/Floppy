@@ -24,8 +24,11 @@ namespace Floppy.Pages
         public async Task<IActionResult> OnPost(int lessonId)
         {
             var progress = await _userManager.GetProgressAsync(User.Identity.Name);
-            if (!progress.WordsComplete)
-                return RedirectToPage("Lessons");
+            var current = await _userManager.GetCurrentLessonAsync(User.Identity.Name);
+
+            if(lessonId==current)
+                if (!progress.WordsComplete)
+                    return RedirectToPage("Lessons");
 
             Grammars = await _lessonManager.GetGrammarsAsync(lessonId);
             LessonId = lessonId;
@@ -35,9 +38,11 @@ namespace Floppy.Pages
 
         public async Task<IActionResult> OnPostComplete(int lessonId)
         {
-            if (lessonId > await _userManager.GetCurrentLessonAsync(User.Identity.Name) || lessonId < 1)
+            var current = await _userManager.GetCurrentLessonAsync(User.Identity.Name);
+            if (lessonId > current || lessonId < 1)
                 return RedirectToPage("Lessons");
-            await _lessonManager.LearnGrammarAsync(User.Identity.Name);
+            if (lessonId == current)
+                await _lessonManager.LearnGrammarAsync(User.Identity.Name);
             return RedirectToPage("LessonTask", new { id = lessonId });
         }
     }

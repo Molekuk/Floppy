@@ -30,9 +30,11 @@ namespace Floppy.Pages
 
         public async Task<IActionResult> OnPostComplete(int lessonId)
         {
-            if (lessonId > await _userManager.GetCurrentLessonAsync(User.Identity.Name) || lessonId < 1)
+            var current = await _userManager.GetCurrentLessonAsync(User.Identity.Name);
+            if (lessonId >  current|| lessonId < 1)
                 return RedirectToPage("Lessons");
-            await _lessonManager.LearnWordsAsync(User.Identity.Name);
+            if (lessonId == current)
+                await _lessonManager.LearnWordsAsync(User.Identity.Name,lessonId);
             return RedirectToPage("LessonTask", new {id=lessonId});
         }
     }
