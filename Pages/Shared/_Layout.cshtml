@@ -22,7 +22,7 @@
         </div>
         <div style="margin-right:25px" class="nav">
             <div class="person">
-            <a>12</a>
+            <a>@HttpContextAccessor.HttpContext.Session.GetString("Money")</a>
                 <a href="#">@User.Identity.Name</a>
             </div>
             <div class="submenu">

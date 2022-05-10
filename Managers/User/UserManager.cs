@@ -1,4 +1,5 @@
 ﻿using Floppy.Models;
+using Floppy.Models.StoryModels;
 using Floppy.Models.UserModels;
 using Floppy.Models.WordModels;
 using Microsoft.AspNetCore.Identity;
@@ -62,8 +63,14 @@ namespace Floppy.Managers.Users
                 user = await _userManager.FindByNameAsync(model.Login);
                 var progress = new Progress() { ExerciseComplete = false, GrammarComplete = false, WordsComplete = false, User = user, UserId = user.Id };
                 user.Progress = progress;
-                await _context.SaveChangesAsync();
                 await _signInManager.SignInAsync(user, isPersistent: false);
+
+                user = await _context.Users.Include(u => u.UserStories).ThenInclude(s=>s.Story).FirstOrDefaultAsync(u => u.Id == user.Id);
+                foreach(var story in _context.Stories)
+                {
+                    user.UserStories.Add(new UserStory { Purchared = false, Story = story, StoryId = story.Id, User = user, UserId = user.Id });
+                }
+                await _context.SaveChangesAsync();
             }
             return userResult;
         }

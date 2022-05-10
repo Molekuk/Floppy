@@ -46,7 +46,7 @@ namespace Floppy.Managers.Words
         public async Task LearnWordAsync(string username, int id)
         {
             var user = await _userManager.FindByNameAsync(username);
-            var word = _context.UserWords.FirstOrDefault(w => w.UserId == user.Id && w.Id == id);
+            var word = _context.UserWords.FirstOrDefault(w => w.UserId == user.Id && w.WordId == id);
             word.Learned = true;
             await _context.SaveChangesAsync();
         }
@@ -57,6 +57,8 @@ namespace Floppy.Managers.Words
             var user = _context.Users.Include(u=>u.UserWords).FirstOrDefault(u => u.Id == userId);
             _context.UserWordSets.FirstOrDefault(w => w.UserId == user.Id && w.Id == id).Purchared=true;
             var price = (await _context.WordSets.FindAsync(id)).Price;
+            if(user.Money>=price)
+            {
             var words = from words1 in _context.WordSets.Include(w => w.Words)
                         from word in words1.Words
                         select word;
@@ -66,6 +68,7 @@ namespace Floppy.Managers.Words
                 user.UserWords.Add(new UserWord {User = user,UserId=user.Id,Word=word,WordId=word.Id,Learned=false});
             }
             await _context.SaveChangesAsync();
+            }
         }
 
         

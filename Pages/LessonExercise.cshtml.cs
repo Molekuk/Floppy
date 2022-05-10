@@ -1,6 +1,7 @@
 using Floppy.Managers.Lessons;
 using Floppy.Managers.Users;
 using Floppy.Models.LessonModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -42,7 +43,11 @@ namespace Floppy.Pages
             if (lessonId > current || lessonId < 1||correctanswers>4||correctanswers<0)
                 return RedirectToPage("Lessons");
             if (lessonId == current)
+            {
+                HttpContext.Session.Remove("Money");
                 await _lessonManager.AddMoneyAsync(User.Identity.Name, correctanswers);
+                HttpContext.Session.SetString("Money", (await _userManager.GetBalanceAsync(User.Identity.Name)).ToString());
+            }
             return RedirectToPage("Lessons");
         }
     }

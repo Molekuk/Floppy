@@ -18,10 +18,12 @@ namespace Floppy.Pages
            _userManager = userManager;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             if (User.Identity.IsAuthenticated)
             {
+                HttpContext.Session.Remove("Money");
+                HttpContext.Session.SetString("Money", (await _userManager.GetBalanceAsync(User.Identity.Name)).ToString());
                 return RedirectToPage("Lessons");
             }
             else
