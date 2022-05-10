@@ -23,9 +23,12 @@ namespace Floppy.Managers.Stories
             var user = await _userManager.FindByNameAsync(username);
             var story = _context.UserStories.FirstOrDefault(s => s.UserId == user.Id && s.Id == id);
             var price = (await _context.Stories.FindAsync(id)).Price;
-            story.Purchared = true;
-            user.Money-=price;
-            await _context.SaveChangesAsync();
+            if(user.Money >= price)
+            {
+                story.Purchared = true;
+                user.Money -= price;
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Story>> GetCurrentStoriesAsync(string username)
@@ -40,7 +43,6 @@ namespace Floppy.Managers.Stories
             var user = await _userManager.FindByNameAsync(username);
             return _context.UserStories.Where(s => s.UserId == user.Id).Where(s => s.Purchared == true).Select(s => s.Story);
         }
-
         public async Task<Story> GetStoryAsync(int id)
         {
             return await _context.Stories.FindAsync(id);

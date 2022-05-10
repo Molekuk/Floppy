@@ -3,6 +3,7 @@ using Floppy.Managers.Users;
 using Floppy.Managers.Words;
 using Floppy.Models.StoryModels;
 using Floppy.Models.WordModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -45,12 +46,16 @@ namespace Floppy.Pages
         public async Task<IActionResult> OnPostStoryAsync(int id)
         {
             await _storyManager.BuyStoryAsync(User.Identity.Name, id);
+            HttpContext.Session.Remove("Money");
+            HttpContext.Session.SetString("Money", (await _userManager.GetBalanceAsync(User.Identity.Name)).ToString());
             return RedirectToPage("Store","Stories",null);
         }
 
         public async Task<IActionResult> OnPostWordSetAsync(int id)
         {
             await _wordManager.BuyWordSetAsync(User.Identity.Name, id);
+            HttpContext.Session.Remove("Money");
+            HttpContext.Session.SetString("Money", (await _userManager.GetBalanceAsync(User.Identity.Name)).ToString());
             return RedirectToPage("Store", "Words", null);
         }
     }
