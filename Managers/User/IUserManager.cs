@@ -12,6 +12,7 @@ namespace Floppy.Managers.Users
         Task<int> GetBalanceAsync(string username);
         Task<Progress> GetProgressAsync(string username);
         Task<int> GetCurrentLessonAsync(string username);
+        Task<string> GetCurrentLessonNameAsync(string username);
         Task SignOutAsync();
 
     }
