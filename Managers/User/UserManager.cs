@@ -36,6 +36,14 @@ namespace Floppy.Managers.Users
             return user.CurrentLesson;
         }
 
+        public async Task<string> GetCurrentLessonNameAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var lesson = _context.Lessons.Find(user.CurrentLesson);
+            if (lesson == null) return "-";
+            return lesson.Name;
+        }
+
         public async Task<Progress> GetProgressAsync(string username)
         {
             var id = (await _userManager.FindByNameAsync(username)).Id;
