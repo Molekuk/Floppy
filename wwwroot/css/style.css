@@ -1079,6 +1079,7 @@ progress::-webkit-progress-value {
 
 .text_readstory {
     padding: 40px;
+    font-size:18px;
 }
 
 .text_readstory p {

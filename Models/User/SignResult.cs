@@ -4,7 +4,7 @@ namespace Floppy.Models.UserModels
 {
     public class SignResult
     {
-        public bool Succeeded { get; set; }
+        public bool Succeed { get; set; }
         public string Error { get; set; }
     }
 }

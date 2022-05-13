@@ -27,6 +27,8 @@ namespace Floppy.Managers.Users
         public async Task<int> GetBalanceAsync(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                user = await _userManager.FindByEmailAsync(username);
             return user.Money;
         }
 
@@ -58,16 +60,16 @@ namespace Floppy.Managers.Users
             if ((await _userManager.FindByEmailAsync(model.Email)) != null)
             {
                 userResult.Error = "Пользователь с таким email уже существует";
-                userResult.Succeeded = false;
+                userResult.Succeed = false;
             }
             else if ((await _userManager.FindByNameAsync(model.Login)) != null)
             {
                 userResult.Error = "Пользователь с таким именем уже существует";
-                userResult.Succeeded = false;
+                userResult.Succeed = false;
             }
             else
             {
-                userResult.Succeeded = (await _userManager.CreateAsync(user, model.Password)).Succeeded;
+                userResult.Succeed = (await _userManager.CreateAsync(user, model.Password)).Succeeded;
                 user = await _userManager.FindByNameAsync(model.Login);
                 var progress = new Progress() { ExerciseComplete = false, GrammarComplete = false, WordsComplete = false, User = user, UserId = user.Id };
                 user.Progress = progress;
@@ -93,10 +95,10 @@ namespace Floppy.Managers.Users
             var user = _userManager.Users.FirstOrDefault(u => u.UserName == model.Login || u.Email == model.Login);
 
             if(user != null)
-                userResult.Succeeded = (await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false)).Succeeded;
+                userResult.Succeed = (await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false)).Succeeded;
 
 
-            if (!userResult.Succeeded)
+            if (!userResult.Succeed)
                 userResult.Error = "Неправильный логин или пароль";
 
             return userResult;
