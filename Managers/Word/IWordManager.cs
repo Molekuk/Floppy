@@ -12,5 +12,6 @@ namespace Floppy.Managers.Words
         Task<IEnumerable<WordSet>> GetCurrentWordSetsAsync(string username);
         Task LearnWordAsync(string username, int id);
         Task BuyWordSetAsync(string username, int id);
+        Task<int> GetCountWordsAsync();
     }
 }

@@ -35,10 +35,12 @@ namespace Floppy.Pages
             if(ModelState.IsValid)
             {
                 var result = await _userManager.RegisterAsync(model);
-                if (!result.Succeeded)
+                if (!result.Succeed)
                     ModelState.AddModelError("", result.Error);
                 else
                 {
+                    HttpContext.Session.Remove("Money");
+                    HttpContext.Session.SetString("Money", (await _userManager.GetBalanceAsync(model.Login)).ToString());
                     return RedirectToPage("Lessons");
                 }
             }
@@ -50,10 +52,13 @@ namespace Floppy.Pages
             if (ModelState.IsValid)
             {
                 var result = await _userManager.SignInAsync(model);
-                if (!result.Succeeded)
+                if (!result.Succeed)
                     ModelState.AddModelError("", result.Error);
                 else
                 {
+                    var name = User.Identity.Name;
+                    HttpContext.Session.Remove("Money");
+                    HttpContext.Session.SetString("Money", (await _userManager.GetBalanceAsync(model.Login)).ToString());
                     return RedirectToPage("Lessons");
                 }
             }

@@ -71,6 +71,9 @@ namespace Floppy.Managers.Words
             }
         }
 
-        
+        public async Task<int> GetCountWordsAsync()
+        {
+            return await _context.Words.CountAsync();
+        }
     }
 }
