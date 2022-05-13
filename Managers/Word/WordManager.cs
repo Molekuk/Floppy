@@ -55,19 +55,19 @@ namespace Floppy.Managers.Words
         {
             var userId = (await _userManager.FindByNameAsync(username)).Id;
             var user = _context.Users.Include(u=>u.UserWords).FirstOrDefault(u => u.Id == userId);
-            _context.UserWordSets.FirstOrDefault(w => w.UserId == user.Id && w.Id == id).Purchared=true;
             var price = (await _context.WordSets.FindAsync(id)).Price;
             if(user.Money>=price)
             {
-            var words = from words1 in _context.WordSets.Include(w => w.Words)
-                        from word in words1.Words
-                        select word;
-            user.Money -= price.Value;
-            foreach (var word in words)
-            {
-                user.UserWords.Add(new UserWord {User = user,UserId=user.Id,Word=word,WordId=word.Id,Learned=false});
-            }
-            await _context.SaveChangesAsync();
+                _context.UserWordSets.FirstOrDefault(w => w.UserId == user.Id && w.WordSetId == id).Purchared = true;
+                var wordset = await _context.WordSets.Include(w => w.Words).FirstOrDefaultAsync(w => w.Id == id);
+                var words = wordset.Words;
+                user.Money -= price.Value;
+
+                foreach (var word in words)
+                {
+                    user.UserWords.Add(new UserWord {User = user,UserId=user.Id,Word=word,WordId=word.Id,Learned=false});
+                }
+                await _context.SaveChangesAsync();
             }
         }
 
