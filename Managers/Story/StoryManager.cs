@@ -21,7 +21,7 @@ namespace Floppy.Managers.Stories
         public async Task BuyStoryAsync(string username, int id)
         {
             var user = await _userManager.FindByNameAsync(username);
-            var story = _context.UserStories.FirstOrDefault(s => s.UserId == user.Id && s.Id == id);
+            var story = _context.UserStories.FirstOrDefault(s => s.UserId == user.Id && s.StoryId == id);
             var price = (await _context.Stories.FindAsync(id)).Price;
             if(user.Money >= price)
             {

@@ -40,7 +40,7 @@
                                     @if (story.Price > Model.Balance)
                                     {
                                         <form method="post">
-                                            <button  disabled="disabled" class="button_story">Недостаточно монет</button>
+                                            <button  disabled="disabled" class="button_story">Необходимо @story.Price монет</button>
                                         </form>
                                     }
                                     else

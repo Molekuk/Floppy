@@ -73,10 +73,14 @@ namespace Floppy.Managers.Users
                 user.Progress = progress;
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                user = await _context.Users.Include(u => u.UserStories).ThenInclude(s=>s.Story).FirstOrDefaultAsync(u => u.Id == user.Id);
+                user = await _context.Users.Include(u => u.UserStories).ThenInclude(s=>s.Story).Include(u=>u.UserWordSets).FirstOrDefaultAsync(u => u.Id == user.Id);
                 foreach(var story in _context.Stories)
                 {
                     user.UserStories.Add(new UserStory { Purchared = false, Story = story, StoryId = story.Id, User = user, UserId = user.Id });
+                }
+                foreach (var wordset in _context.WordSets)
+                {
+                    user.UserWordSets.Add(new UserWordSet { Purchared = false, WordSet = wordset, WordSetId = wordset.Id, User = user, UserId = user.Id });
                 }
                 await _context.SaveChangesAsync();
             }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Floppy.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220507094919_Initial")]
+    [Migration("20220513152906_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
