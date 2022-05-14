@@ -39,10 +39,12 @@
                         <div class="grammar_theory">
                             <h1>@Html.Raw(grammar.Theory)</h1>
                         </div>
-
-                        <div class="grammar_example">
+                        @if(grammar.Example!=null)
+                        {
+                          <div class="grammar_example">
                             <h2>@Html.Raw(@grammar.Example)</h2>
-                        </div>
+                          </div>
+                        }
                     </div>
                     j++;
                 }
