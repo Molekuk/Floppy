@@ -503,7 +503,7 @@ color: #7F7DF9;
 }
 
     .word_image_lesson img {
-        object-fit: cover;
+        object-fit: scale-down;
         height: 380px;
         width: 600px;
         border-radius: 30px;
