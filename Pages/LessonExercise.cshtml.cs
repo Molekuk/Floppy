@@ -40,7 +40,8 @@ namespace Floppy.Pages
         public async Task<IActionResult> OnPostComplete(int lessonId,int correctanswers)
         {
             var current = await _userManager.GetCurrentLessonAsync(User.Identity.Name);
-            if (lessonId > current || lessonId < 1||correctanswers>4||correctanswers<0)
+            var answers = (await _lessonManager.GetExercisesAsync(lessonId)).Count();
+            if (lessonId > current || lessonId < 1||correctanswers>answers||correctanswers<0)
                 return RedirectToPage("Lessons");
             if (lessonId == current)
             {

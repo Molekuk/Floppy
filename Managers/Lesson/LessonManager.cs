@@ -18,7 +18,7 @@ namespace Floppy.Managers.Lessons
         public async Task AddMoneyAsync(string username, int correctAnswers)
         {
             var user = await _context.Users.Include(u => u.Progress).FirstOrDefaultAsync(u => u.UserName == username);
-            user.Money += correctAnswers * 10;
+            user.Money += correctAnswers * 5;
             user.Progress.WordsComplete = false;
             user.Progress.GrammarComplete = false;
             user.Progress.ExerciseComplete = false;
@@ -57,13 +57,16 @@ namespace Floppy.Managers.Lessons
         public async Task LearnWordsAsync(string username,int lessonid)
         {
             var user  = await _context.Users.Include(u=>u.Progress).Include(u=>u.UserWords).FirstOrDefaultAsync(u => u.UserName == username);
-            user.Progress.WordsComplete = true;
-            var wordSet= (await _context.Lessons.Include(l => l.WordSet).ThenInclude(w=>w.Words).FirstOrDefaultAsync(l => l.Id == lessonid)).WordSet;
-            foreach(var word in wordSet.Words)
+            if (user.Progress.WordsComplete == false)
             {
-                user.UserWords.Add(new UserWord { Learned=false,Word=word,User=user,UserId=user.Id,WordId=word.Id });
+                user.Progress.WordsComplete = true;
+                var wordSet = (await _context.Lessons.Include(l => l.WordSet).ThenInclude(w => w.Words).FirstOrDefaultAsync(l => l.Id == lessonid)).WordSet;
+                foreach (var word in wordSet.Words)
+                {
+                    user.UserWords.Add(new UserWord { Learned = false, Word = word, User = user, UserId = user.Id, WordId = word.Id });
+                }
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
         }
     }
 }
