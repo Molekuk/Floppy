@@ -56,7 +56,7 @@
 
         }
 
-        <button id="next" onclick="next()"><span>Далее</span></button>
+        <button style="background-color:gray" disabled="disabled" id="next" onclick="next()"><span>Далее</span></button>
         <form method="post">
             <button name="correctanswers" id="end_btn" value="0" asp-page-handler="Complete" asp-page="LessonExercise"><span>Завершить</span></button>
             <input  style="display:none" name="lessonId" value="@Model.LessonId" />
@@ -67,6 +67,7 @@
     <script>
         var element = 'example_';
         var btn = document.getElementById('next');
+        var endbut = document.getElementById('end_btn');
         var i = 1;
         var num = 1;
         function next() {
@@ -79,15 +80,20 @@
                 if (i == @Model.Count)
                     end();
             }
+            btn.disabled="disabled";
+            btn.style="background-color:gray";
         };
         function end() {
             btn.style.display = "none";
-            btn = document.getElementById('end_btn');
-            btn.style.display = "block";
+            endbut.style.display = "block";
+            endbut.disabled="disabled";
             document.getElementById('progress_bar').value = 100;
         }
         function check(answer,correctanswer,id)
         {
+            btn.disabled="";
+            endbut.disabled="";
+            btn.style="background-color:#7F7DF9";
             var ch1 = document.getElementById('choice_'+(id)+'_1');
             var ch2 = document.getElementById('choice_'+(id+1));
             var ch3 = document.getElementById('choice_'+(id+2));
@@ -122,8 +128,7 @@
             ch4.onclick = "";
             if (answer == correctanswer)
                 {   
-                    btn = document.getElementById('end_btn');
-                    btn.value = num;
+                    endbut.value = num;
                     num = num + 1;
                 }
         }

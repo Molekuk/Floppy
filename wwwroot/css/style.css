@@ -755,7 +755,7 @@ progress::-webkit-progress-value {
     border-radius: 30px;
     height: 110px;
     width: 110px;
-    object-fit: cover;
+    object-fit: scale-down;
 }
 
 
@@ -1079,7 +1079,8 @@ progress::-webkit-progress-value {
 
 .text_readstory {
     padding: 40px;
-    font-size:18px;
+    font-size: 18px;
+    font-family: Verdana;
 }
 
 .text_readstory p {

@@ -319,7 +319,6 @@ button[type=submit] {
     align-items: center;
     justify-content: center;
     height: 10vh;
-    width: 20vw;
     text-decoration: none;
     background: #6AA9F4;
     color: white;
@@ -331,6 +330,7 @@ button[type=submit] {
     font-style: normal;
     font-weight: 800;
     border: none;
+    min-width:20vw;
 }
 
 /*-------------------------Œÿ»¡ » œ–» –≈√»—“–¿÷»» » ¿¬“Œ–»«¿÷»»-----------------------------------------------*/
