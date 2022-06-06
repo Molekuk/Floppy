@@ -82,7 +82,8 @@ namespace Floppy.Managers.Users
                 }
                 foreach (var wordset in _context.WordSets)
                 {
-                    user.UserWordSets.Add(new UserWordSet { Purchared = false, WordSet = wordset, WordSetId = wordset.Id, User = user, UserId = user.Id });
+                    if(wordset.LessonId==null)
+                        user.UserWordSets.Add(new UserWordSet { Purchared = false, WordSet = wordset, WordSetId = wordset.Id, User = user, UserId = user.Id });
                 }
                 await _context.SaveChangesAsync();
             }
